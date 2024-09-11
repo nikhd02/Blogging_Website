@@ -11,7 +11,7 @@ const Navbar = () =>{
         <>
             <nav className="navbar">
             <Link to="/" className="navbar">
-            <img src={logo} className="flex-none w-10"/>
+            <img src={logo} className="flex-none w-24 h-20"/>
             </Link>
             
             <div className={
