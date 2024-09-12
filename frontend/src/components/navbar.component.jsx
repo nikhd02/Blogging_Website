@@ -28,7 +28,7 @@ const Navbar = () =>{
                     md:pl-12"
                 />
 
-                <i className="fi fi-rr-search absolute right-[10%]
+                <i className="fi fi-rr-search absolute
                  md:pointer-event-none md:left-5 top-1/2 -translate-y-1/2
                  text-x1 text-dark-grey"></i>
 
@@ -40,7 +40,7 @@ const Navbar = () =>{
                     <i className="fi fi-rr-search text-xl"></i>
                 </button>
 
-                <Link to="/editor" className="hidden md:flex gap-2 link">
+                <Link to="/editor" className="hidden md:flex gap-2 link rounded-full ">
                     <i className="fi fi-rr-file-edit"></i>
                     <p>Write</p>
                 </Link>
