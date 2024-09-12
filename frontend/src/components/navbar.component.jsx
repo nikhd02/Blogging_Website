@@ -1,11 +1,14 @@
 
 import {Link,Outlet} from "react-router-dom";
 import logo from "../imgs/logo.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../App";
+
 const Navbar = () =>{
 
     const [searchBoxVisibility, setSearchBoxVisivility] = useState(false)
 
+    const { userAuth, userAuth: { access_token, profile_img } } = useContext(UserContext);
 
     return (
         <>
@@ -44,14 +47,33 @@ const Navbar = () =>{
                     <i className="fi fi-rr-file-edit"></i>
                     <p>Write</p>
                 </Link>
+            
+                {
+                    access_token ?
+                    
+                    <>
+                        <Link to="/dashboard/notification">
+                            <button className="w-12 h-12 rounded-full bg-grey relative hover:bg-black/10">
 
-                <Link className="btn-dark py-2" to="/signin">
-                    Sign In
-                </Link>
+                            </button>
+                        
+                        </Link>
+                    </>
+                    
+                    :
+                    <>
+                        <Link className="btn-dark py-2" to="/signin">
+                            Sign In
+                        </Link>
 
-                <Link className="btn-light py-2 hidden md:block" to="/signup">
-                    Sign Up
-                </Link>
+                        <Link className="btn-light py-2 hidden md:block" to="/signup">
+                            Sign Up
+                        </Link>
+                    </>
+                    
+                }
+
+                
 
             </div>
 
