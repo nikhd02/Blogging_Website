@@ -59,7 +59,6 @@ const Navbar = () =>{
                         
                         </Link>
                     </>
-                    
                     :
                     <>
                         <Link className="btn-dark py-2" to="/signin">
