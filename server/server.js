@@ -22,7 +22,7 @@ mongoose.connect(process.env.DB_LOCATION, {
     autoIndex: true
 });
 
-const formateDatatoSend = () => {
+const formateDatatoSend = (user) => {
 
     const access_token = jwt.sign({ id: user._id }, process.env.SECRET_ACCESS_KEY)
 
@@ -37,7 +37,7 @@ const formateDatatoSend = () => {
 const generateUsername = async (email) => {
     let username = email.split("@")[0];
 
-    let isUsernameNotUnique = await User.exists({ "personal_info": username }).then((result) => result)
+    let isUsernameNotUnique = await User.exists({ "personal_info.username": username }).then((result) => result)
     isUsernameNotUnique ? username += nanoid().substring(0, 5) : "";
 
     return username;
@@ -97,14 +97,30 @@ server.post("/signup",(req, res) => {
 server.post("/signin", (req, res ) => {
     let { email, password } = req.body;
 
-    user.findOne({ "personal_info.email": email })
+    User.findOne({ "personal_info.email": email })
     .then((user) => {
-        console.log(user)
-        return res.json({ "status": "got user document" })
+        if( !user ){
+            return res.status(403).json({"error": "User not found"})
+        }
+
+        bcrypt.compare(password, user.personal_info.password, (err, result) => {
+            if(err){
+                return res.status(403).json({ "error": "Error occured while loin please try again" })
+            }
+
+            if(!result){
+                return res.status(403).json({ "error": "Incorrect password" })
+
+            }
+            else{
+                return res.status(200).json(formateDatatoSend(user))
+
+            }
+        })
     })
-    .catch((err) => {
-        console.log(err);
-        return res.status(500).json({"error": "User not found"})
+    .catch(err => {
+        console.log(err.message);
+        return res.status(500).json({"error": err.message })
     })
 })
 
