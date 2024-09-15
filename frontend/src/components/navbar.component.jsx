@@ -96,10 +96,23 @@ import { UserContext } from "../App";
 import UserNavigationPanel from "./user-navigation.component";
 
 const Navbar = () => {
+
+    const [ userNavPanel, setUserNavPanel ] = useState(false);
+
     const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
     const { userAuth } = useContext(UserContext);
     const access_token = userAuth?.access_token; // Use optional chaining
     const profile_img = userAuth?.profile_img;
+
+    const handleUserNavPanel = () => {
+        setUserNavPanel(currentVal => !currentVal);
+    }
+
+    const handleBlur = () => {
+        setTimeout(() => {
+            setUserNavPanel(false);
+        }, 1000);
+    }
 
     return (
         <>
@@ -138,13 +151,16 @@ const Navbar = () => {
                                 <i className="fi fi-rs-bell text-2xl block mt-1"></i>
                                 </button>
                             </Link>
-                            <div className="relative">
+                            <div className="relative" onClick={handleUserNavPanel} onBlur={handleBlur}>
 
                                 <button className="w-12 h-12 mt-1">
                                     <img src={profile_img} className="w-full h-full object-cover rounded-full" alt="" />
                                 </button>
 
-                                <UserNavigationPanel />
+                                {
+                                    userNavPanel ? <UserNavigationPanel />
+                                    : ""
+                                }
 
                             </div>
                         </>

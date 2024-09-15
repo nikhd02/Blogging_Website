@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import { nanoid } from 'nanoid';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
+import admin from "firebase-admin";
 
 
 import User from './Schema/User.js';
@@ -14,11 +15,21 @@ const server = express();
 
 let PORT  = 3000;
 
+admin.initializeApp({
+    
+})
+
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
 let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
 
 server.use(express.json());
 server.use(cors());
+
+
+server.use((req, res, next) => {
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+    next();
+  });
 
 
 
@@ -126,6 +137,10 @@ server.post("/signin", (req, res ) => {
         console.log(err.message);
         return res.status(500).json({"error": err.message })
     })
+})
+
+server.post("/google-auth", async (req, res) =>{
+    let { access_token } = req.body;
 })
 
 server.listen(PORT, () => {
