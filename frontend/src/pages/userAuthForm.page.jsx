@@ -12,7 +12,7 @@ const UserAuthForm = ({ type }) => {
 
     const authForm = useRef();
 
-    let { userAuth: { access_token }, setUserAuth } = useContext(UserContext);
+    let { userAuth: { access_token } = {}, setUserAuth } = useContext(UserContext);
 
     // console.log(access_token);
 
