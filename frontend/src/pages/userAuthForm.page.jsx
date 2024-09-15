@@ -85,7 +85,14 @@ const UserAuthForm = ({ type }) => {
     const handleGoogleAuth = (e) => {
         e.preventDefault();
         authWithGoogle().then(user => {
-            console.log(user);
+            // console.log(user);
+
+            let serverRoute = "/google-auth";
+
+            let formData = {
+                access_token: user.access_token
+            }
+            userAuthThroughServer(serverRoute, formData)
         })
         .catch(err =>{
             toast.error('trouble loin through google');
