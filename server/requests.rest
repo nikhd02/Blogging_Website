@@ -1,7 +1,2 @@
-POST http://localhost:3000/signin 
-Content-Type: application/json
 
-{
-    "email": "avi@mail.com",
-    "password": "Adarsh12"
-}
+GET http://localhost:3000/get-uplode-url
